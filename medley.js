@@ -29,13 +29,37 @@ var wordArray = [
   "long"
 ];
 
-console.log(wordArray.length)
+var anotherArray = [
+  "Hello",
+  "world",
+  "normally",
+  "you",
+  "want",
+  "Hello",
+  "world"
+];
 
 //loop through array
+//make object with each word as a keyboard
+function wordObj(arr) {
+  //create empty object
+  var obj = {};
+  //assign each word as a key
+  arr.forEach(function(el) {
+    obj[el] = 1;
+  });
+  //check for the key in the array and increment the value
+  arr.sort();
+  for ( var i = 1; i < arr.length; i++ ){
+      if(arr[i-1] === arr[i]){
+          obj[arr[i]]++;
+      }
+  }
+  //return object with value of how many times it is said
+  return obj;
+}
 
-
-
-
+console.log(wordObj(wordArray));
 
 var fill = d3.scale.category20();
 d3.layout.cloud().size([300, 300]).words(wordArray.map(function(d) {
