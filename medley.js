@@ -29,18 +29,13 @@ var wordArray = [
   "long"
 ];
 
-var anotherArray = [
-  "Hello",
-  "world",
-  "normally",
-  "you",
-  "want",
-  "Hello",
-  "world"
-];
+//Remove duplicates from array
+var uniqueArray = wordArray.filter(function(item, pos, self) {
+    return self.indexOf(item) === pos;
+});
+// console.log(uniqueArray);
 
-//loop through array
-//make object with each word as a keyboard
+//Create object that maps the number of times spoken
 function wordObj(arr) {
   //create empty object
   var obj = {};
@@ -50,29 +45,35 @@ function wordObj(arr) {
   });
   //check for the key in the array and increment the value
   arr.sort();
-  for ( var i = 1; i < arr.length; i++ ){
-      if(arr[i-1] === arr[i]){
-          obj[arr[i]]++;
-      }
+  for (var i = 1; i < arr.length; i++) {
+    if (arr[i - 1] === arr[i]) {
+      obj[arr[i]]++;
+    }
   }
   //return object with value of how many times it is said
   return obj;
 }
 
-console.log(wordObj(wordArray));
+var newObj = wordObj(wordArray );
+console.log(newObj);
 
 var fill = d3.scale.category20();
-d3.layout.cloud().size([300, 300]).words(wordArray.map(function(d) {
-  // console.log(d);
-  return {
-    text: d,
-    size: 10 + Math.random() * 90
-  };
-})).rotate(function() {
-  return ~~(Math.random() * 2) * 90;
-}).font("Impact").fontSize(function(d) {
-  return d.size;
-}).on("end", draw).start();
+
+d3.layout.cloud().size([300, 300])
+  .words(uniqueArray.map(function(d) {
+    console.log(newObj[d]);
+    return {
+      text: d,
+      size: newObj[d] * 10
+    };
+  }))
+  .rotate(function() {
+    return ~~(Math.random() * 2) * 90;
+  })
+  .font("Impact").fontSize(function(d) {
+    return d.size;
+  })
+  .on("end", draw).start();
 
 function draw(words) {
   d3.select("#word-cloud").append("svg").attr("width", 300).attr("height", 300).append("g").attr("transform", "translate(150,150)").selectAll("text").data(words).enter().append("text").style("font-size", function(d) {
