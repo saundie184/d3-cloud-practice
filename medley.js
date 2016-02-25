@@ -1,26 +1,7 @@
 'use strict';
-//make an object that keeps track of the words and how many times it is said
+
 var wordArray = [
   "Hello",
-  "world",
-  "normally",
-  "you",
-  "want",
-  "more",
-  "words",
-  "than",
-  "this",
-  "make",
-  "a",
-  "super",
-  "long",
-  "want",
-  "more",
-  "words",
-  "than",
-  "this",
-  "make",
-  "a",
   "super",
   "long",
   "long",
@@ -33,13 +14,10 @@ var wordArray = [
 var uniqueArray = wordArray.filter(function(item, pos, self) {
     return self.indexOf(item) === pos;
 });
-// console.log(uniqueArray);
 
 //Create object that maps the number of times spoken
 function wordObj(arr) {
-  //create empty object
   var obj = {};
-  //assign each word as a key
   arr.forEach(function(el) {
     obj[el] = 1;
   });
@@ -50,18 +28,15 @@ function wordObj(arr) {
       obj[arr[i]]++;
     }
   }
-  //return object with value of how many times it is said
   return obj;
 }
 
 var newObj = wordObj(wordArray );
-console.log(newObj);
 
 var fill = d3.scale.category20();
 
 d3.layout.cloud().size([300, 300])
   .words(uniqueArray.map(function(d) {
-    console.log(newObj[d]);
     return {
       text: d,
       size: newObj[d] * 10
